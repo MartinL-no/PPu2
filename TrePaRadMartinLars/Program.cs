@@ -2,16 +2,11 @@
 {
     internal class Program
     {
-        private int[] board = new int[9];
-
         static void Main(string[] args)
         {
-            Console.WriteLine("Welcome to Tic Tac Toe");
-            board = new Board();
-            board.ShowBoard();
+            Console.WriteLine("Welcome to Tic Tac Toe\n");
 
-
-            //Run();
+            Run();
             // setup a board
             // Create board class
 
@@ -24,10 +19,27 @@
             // function for deciding/checking winner
             // output who has won on console            
         }
-        static void Run()
+        public static void Run()
         {
-            board = new Board();
+            var board = new Board();
+            bool isPlayerOne = true;
+
+            while (true)
+            {
+                UserTurn(board, isPlayerOne);
+                isPlayerOne = !isPlayerOne;
+            }
+            
+        }
+        public static void UserTurn(Board board, bool isPlayerOne)
+        {
             board.ShowBoard();
+
+            Console.Write("Player one enter the index position you want to choose: ");
+
+            var userInput = Console.ReadLine();
+
+            board.AddUserChoice(true, userInput);
         }
     }
 }

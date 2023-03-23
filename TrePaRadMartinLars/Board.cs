@@ -4,19 +4,15 @@ namespace TrePaRadMartinLars
 {
     internal class Board
     {
-        int[] CurrentBoard;
+        readonly int[] CurrentBoard;
 
         public Board()
         {
             CurrentBoard = new int[9];
         }
-        static void ShowBoard()
+        public void ShowBoard()
         {
-            /*
-                0 1 2
-                3 4 5
-                6 7 8
-            */
+  
             Console.WriteLine("Use the nummber index for position");
             Console.WriteLine("012");
             Console.WriteLine("345");
@@ -24,23 +20,41 @@ namespace TrePaRadMartinLars
 
             for (int i = 0; i < 9; i++)
             {
-                if (board[i] == 0)
+                if (CurrentBoard[i] == 0)
                 {
                     Console.Write("_");
                 }
 
-                if (board[i] == 1)
+                if (CurrentBoard[i] == 1)
                 {
                     Console.Write("X");
                 }
 
-                if (board[i] == 2)
+                if (CurrentBoard[i] == 2)
                 {
                     Console.Write("O");
                 }
 
-                if (i == 2 || i == 5 i || i == 8) { Console.WriteLine(); }
+                if (i == 2 || i == 5 || i == 8) { Console.WriteLine(); }
             }
+        }
+        public void AddUserChoice(bool isPlayerOne, string userInput)
+        {
+            int number;
+
+            if (!int.TryParse(userInput, out number))
+            {
+                Console.WriteLine("Incorrect input");
+            }
+            else if (isPlayerOne)
+            {
+                CurrentBoard[number] = 1;
+            }
+            else
+            {
+                CurrentBoard[number] = 2;
+            }
+            ShowBoard();
         }
     }
 }
