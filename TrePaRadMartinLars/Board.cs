@@ -4,7 +4,7 @@ namespace TrePaRadMartinLars
 {
     internal class Board
     {
-        readonly int[] CurrentBoard;
+        int[] CurrentBoard;
 
         public Board()
         {
@@ -12,11 +12,12 @@ namespace TrePaRadMartinLars
         }
         public void ShowBoard()
         {
-  
             Console.WriteLine("Use the nummber index for position");
+            Console.WriteLine();
             Console.WriteLine("012");
             Console.WriteLine("345");
             Console.WriteLine("678");
+            Console.WriteLine();
 
             for (int i = 0; i < 9; i++)
             {
@@ -37,24 +38,70 @@ namespace TrePaRadMartinLars
 
                 if (i == 2 || i == 5 || i == 8) { Console.WriteLine(); }
             }
+            Console.WriteLine();
         }
-        public void AddUserChoice(bool isPlayerOne, string userInput)
+        public void AddUserChoice(bool isPlayerOne, int boardIndex)
         {
-            int number;
-
-            if (!int.TryParse(userInput, out number))
+            
+            if (isPlayerOne)
             {
-                Console.WriteLine("Incorrect input");
-            }
-            else if (isPlayerOne)
-            {
-                CurrentBoard[number] = 1;
+                CurrentBoard[boardIndex] = 1;
             }
             else
             {
-                CurrentBoard[number] = 2;
+                CurrentBoard[boardIndex] = 2;
             }
-            ShowBoard();
+        }
+
+        public bool HasPlayerWon(bool isPlayerOne)
+        {
+            var player = isPlayerOne ? 1 : 2;
+
+            if (CurrentBoard[0] == player && CurrentBoard[1] == player && CurrentBoard[2] == player)
+            {
+                return true;
+            }
+            else if (CurrentBoard[3] == player && CurrentBoard[4] == player && CurrentBoard[5] == player)
+            {
+                return true;
+            }
+            else if (CurrentBoard[6] == player && CurrentBoard[7] == player && CurrentBoard[8] == player)
+            {
+                return true;
+            }
+            else if (CurrentBoard[0] == player && CurrentBoard[3] == player && CurrentBoard[6] == player)
+            {
+                return true;
+            }
+            else if (CurrentBoard[1] == player && CurrentBoard[4] == player && CurrentBoard[7] == player)
+            {
+                return true;
+            }
+            else if (CurrentBoard[2] == player && CurrentBoard[5] == player && CurrentBoard[8] == player)
+            {
+                return true;
+            }
+            else if (CurrentBoard[0] == player && CurrentBoard[4] == player && CurrentBoard[8] == player)
+            {
+                return true;
+            }
+            else if (CurrentBoard[6] == player && CurrentBoard[4] == player && CurrentBoard[2] == player)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        internal bool SlotIsEmpty(int boardIndex)
+        {
+            if (CurrentBoard[boardIndex] == 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace TrePaRadMartinLars
+﻿using static System.Runtime.InteropServices.JavaScript.JSType;
+
+namespace TrePaRadMartinLars
 {
     internal class Program
     {
@@ -26,20 +28,58 @@
 
             while (true)
             {
+                board.ShowBoard();
                 UserTurn(board, isPlayerOne);
+                board.ShowBoard();
+
+                if (board.HasPlayerWon(isPlayerOne))
+                {
+                    var currentPlayer = isPlayerOne ? 1 : 2;
+                    Console.WriteLine($"Player {currentPlayer} has won!");
+
+                    break;
+                }
                 isPlayerOne = !isPlayerOne;
+                Console.Clear();
             }
             
         }
         public static void UserTurn(Board board, bool isPlayerOne)
         {
-            board.ShowBoard();
+            while (true)
+            {
+                int boardIndex = GetUserInput(isPlayerOne);
 
-            Console.Write("Player one enter the index position you want to choose: ");
+                if (board.SlotIsEmpty(boardIndex))
+                {
+                    board.AddUserChoice(isPlayerOne, boardIndex);
+                    break;
+                }
+                else
+                {
+                    Console.WriteLine("Board index is already taken");
+                }
+            }
+        }
+        public static int GetUserInput(bool isPlayerOne)
+        {
+            var currentPlayer = isPlayerOne ? 1 : 2;
 
-            var userInput = Console.ReadLine();
+            while (true)
+            {
+                Console.Write($"Player {currentPlayer} enter the index position you want to choose: ");
+                var userInput = Console.ReadLine();
 
-            board.AddUserChoice(true, userInput);
+                try
+                {
+                    int boardIndex = Convert.ToInt32(userInput);
+                    return boardIndex;
+                }
+                catch
+                {
+                    Console.WriteLine("You did not enter a number");
+                }
+            }
         }
     }
 }
